@@ -14,10 +14,10 @@ const env = modules => [
 
 module.exports = {
   plugins: ['@babel/plugin-proposal-class-properties'],
-  presets: ['@babel/flow', env()],
+  presets: ['@babel/flow'],
   env: {
     test: {
-      presets: ['@babel/flow', env(true)],
+      presets: ['@babel/flow'],
     },
   },
 };
