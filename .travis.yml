@@ -5,11 +5,10 @@ before_script:
 - yarn install
 script: yarn run build
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: 
-   - "/lib"
-   - "/esm"
   skip_cleanup: true
+  provider: npm
+  email: a.golovchuk@gmail.com
   on:
     tags: true
+  branch: master
+  api_key: $NMP_TOKEN
