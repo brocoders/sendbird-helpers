@@ -2,6 +2,7 @@
 import SendBird, {
   type GroupChannel,
   type User,
+  type SendBirdInstance,
 } from 'sendbird';
 
 export function connect(appId: string, userId: ?string, accessToken: ?string): Promise<User> {
