@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '8'
+before_script:
+- yarn install
+script: yarn run build
+deploy:
+  provider: releases
+  github_token: $GITHUB_TOKEN
+  file: 
+   - "/lib"
+   - "/esm"
+  skip_cleanup: true
+  on:
+    tags: true
