@@ -6,7 +6,7 @@ before_script:
 script: yarn run build
 deploy:
   provider: releases
-  github_token: $GITHUB_TOKEN
+  api_key: $GITHUB_TOKEN
   file: 
    - "/lib"
    - "/esm"
