@@ -5,7 +5,6 @@ import SendBird, {
 } from 'sendbird';
 
 export function connect(appId: string, userId: ?string, accessToken: ?string): Promise<User> {
-  // $FlowFixMe
   const sendbird = new SendBird({ appId, newInstance: true });
   if (sendbird && 'connect' in sendbird && userId && accessToken) {
     return new Promise((resolve, reject) => {
