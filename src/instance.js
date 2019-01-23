@@ -1,14 +1,23 @@
 /* @flow */
 import SendBird, { type SendBirdInstance } from 'sendbird';
+import { ChatError } from './error';
 
-export function sendBirdInstance(): SendBirdInstance {
-  const sendbird = SendBird.getInstance();
+export function sbCreatInstance(appId: string, newInstance?: boolean = true) {
+  return new SendBird({ appId, newInstance });
+}
+
+export function sbGetInstance(): SendBirdInstance {
+  return SendBird.getInstance();
+}
+
+export function sbGetConnectedInstance(): SendBirdInstance {
+  const sendbird = sbGetInstance();
   if (sendbird && 'getConnectionState' in sendbird) {
     const state = sendbird.getConnectionState();
-    if (state !== 'OPEN') throw new Error(`Chat is not open WS: ${state}`);
+    if (state !== 'OPEN') throw new ChatError('Is not open WS', state);
     if (state === 'CLOSED') sendbird.reconnect();
   } else {
-    throw new Error('No Sendbird instance');
+    throw new ChatError('No Sendbird instance');
   }
   return sendbird;
 }

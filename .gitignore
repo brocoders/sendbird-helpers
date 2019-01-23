@@ -1,4 +1,7 @@
+/__mock__/keys.js
 /node_modules
 /lib
 /esm
 *.log
+.idea
+.vscode
