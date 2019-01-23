@@ -9,6 +9,7 @@ const { dependencies } = packageJson;
 
 const deps = dependencies && Object.keys(dependencies).join('|');
 const reg = deps && new RegExp(`^(${deps})($|/)`);
+const baseDistPath = 'lib/';
 
 const banner = `
 /**
@@ -21,7 +22,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'lib/bundle.js',
+      file: `${baseDistPath}index.js`,
       format: 'cjs',
       banner,
     },
@@ -48,6 +49,40 @@ export default [
       }),
       flowEntry(),
       babel({ presets: [['@babel/env', { targets: { node: 10 } }]] }),
+      commonjs(),
+    ],
+    external: id => !!reg && reg.test(id),
+  },
+  {
+    input: 'src/jsAdapters.js',
+    output: {
+      file: `${baseDistPath}jsAdapters.js`,
+      format: 'cjs',
+      banner,
+    },
+    plugins: [
+      clear({
+        targets: ['lib'],
+      }),
+      flowEntry(),
+      babel(),
+      commonjs(),
+    ],
+    external: id => !!reg && reg.test(id),
+  },
+  {
+    input: 'src/imAdapters.js',
+    output: {
+      file: `${baseDistPath}imAdapters.js`,
+      format: 'cjs',
+      banner,
+    },
+    plugins: [
+      clear({
+        targets: ['lib'],
+      }),
+      flowEntry(),
+      babel(),
       commonjs(),
     ],
     external: id => !!reg && reg.test(id),

@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+./flow-typed/
 
 [options]
 esproposal.export_star_as=enable

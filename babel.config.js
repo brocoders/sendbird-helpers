@@ -1,23 +1,34 @@
-/* @flow */
-
-const env = modules => [
-  '@babel/env',
-  {
-    targets: {
-      node: 6,
-      browsers: ['last 4 version', '> 1%', 'not dead'],
+module.exports = function(api) {
+  return {
+    plugins: [
+      '@babel/plugin-proposal-class-properties',
+      'transform-es2015-classes',
+    ],
+    presets: [
+      '@babel/flow',
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            node: 6,
+            chrome: 59,
+            edge: 13,
+            firefox: 50,
+          },
+          forceAllTransforms: api.env("production"),
+        },
+      ]
+    ],
+    env: {
+      test: {
+        presets: [
+          '@babel/preset-env',
+        ],
+        plugins: [
+          '@babel/plugin-proposal-class-properties',
+          'transform-es2015-classes',
+        ],
+      },
     },
-    useBuiltIns: 'usage',
-    modules: !!modules && 'commonjs',
-  },
-];
-
-module.exports = {
-  plugins: ['@babel/plugin-proposal-class-properties'],
-  presets: ['@babel/flow'],
-  env: {
-    test: {
-      presets: ['@babel/flow'],
-    },
-  },
+  }
 };
