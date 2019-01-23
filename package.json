@@ -1,8 +1,8 @@
 {
   "name": "sendbird-helpers",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "SendBird helpers",
-  "main": "lib/bundle.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/agolovchuk/sendBird-helpers.git",
   "author": "Alexandr Golovchuk <a.golovchuk@gmail.com>",
   "license": "MIT",
@@ -38,9 +38,9 @@
     "rollup-plugin-flow-entry": "^0.2.0"
   },
   "dependencies": {
-    "lodash": "4.17.5",
+    "lodash": "4.17.11",
     "immutable": "4.0.0-rc.12",
-    "sendbird": "^3.0.92"
+    "sendbird": "^3.0.93"
   },
   "jest": {
     "transform": {
