@@ -7,9 +7,9 @@ import SendBird, {
 import { ChatError } from './error';
 import { sbGetInstance } from './instance';
 
-export function sbConnect(userId: ?string, accessToken: ?string): Promise<User> {
+export function sbConnect(userId: string, accessToken: string): Promise<User> {
   const sb = sbGetInstance();
-  if (sb && 'connect' in sb && userId && accessToken) {
+  if (typeof userId === 'string' && typeof accessToken === 'string') {
     return new Promise((resolve, reject) => {
       sb.connect(userId, accessToken, (user, error) => {
         if (error) {
