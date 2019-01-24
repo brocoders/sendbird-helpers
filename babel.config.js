@@ -7,13 +7,11 @@ module.exports = function(api) {
     presets: [
       '@babel/flow',
       [
-        '@babel/preset-env',
+        '@babel/env',
         {
           targets: {
             node: 6,
-            chrome: 59,
-            edge: 13,
-            firefox: 50,
+            browsers: ['last 4 version', '> 1%', 'not dead'],
           },
           forceAllTransforms: api.env("production"),
         },
