@@ -2,7 +2,7 @@
 import SendBird, { type SendBirdInstance } from 'sendbird';
 import { ChatError } from './error';
 
-export function sbCreatInstance(appId: string, newInstance?: boolean = true) {
+export function sbCreatInstance(appId: string, newInstance?: boolean = true): SendBirdInstance {
   return new SendBird({ appId, newInstance });
 }
 

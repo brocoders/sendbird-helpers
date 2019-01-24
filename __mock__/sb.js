@@ -1,8 +1,3 @@
-/* @flow */
-import type {
-  User
-} from 'sendbird';
-
 export default class SBMock {
   constructor(apiKey: string) {
   
