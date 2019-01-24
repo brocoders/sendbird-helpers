@@ -3,22 +3,57 @@ import type {
   GroupChannel,
   Member,
   UserMessage,
+  FileMessage,
+  AdminMessage,
 } from 'sendbird';
 import map from 'lodash/fp/map';
 import pick from 'lodash/fp/pick';
 import compose from 'lodash/fp/compose';
 import set from 'lodash/fp/set';
 
-import { getParamsFromChannelName } from './groupChannel';
+import {
+  getThreadFromChannelFactory,
+  type EnvType,
+  type GeneralChannelParamsType,
+  type DocumentChannelParamsType,
+} from './adapters';
 
-export const DOCUMENT_CHAT_TYPE = 'document_p2p';
-const BUILD_ENV = 'staging';
+type SenderType = {|
+  userId: string,
+  nickname: string,
+  profileUrl: string,
+|}
 
-type ThreadsContainer = {
-  threads: $PropertyType<ChatStore, 'threads'>;
+type MessageType = {
+  messageId: number,
+  message: string,
+  createdAt: number,
+  updatedAt: number,
+  sender:SenderType,
+  data: string,
 }
 
-type ChannelHandler<T> = (channel: GroupChannel) => T;
+type BaseThread = {|
+  url: string,
+  companyId: string,
+  members: SenderType[],
+  name: string,
+  unreadMessageCount: number,
+  messages: MessageType[],
+|}
+
+type DocumentThreadType = {|
+  ...BaseThread,
+  documentId: string,
+|}
+
+type GeneralThreadType = BaseThread;
+
+type ThreadsContainer = {
+  [key: string]: DocumentThreadType | GeneralThreadType,
+};
+
+type SBMessage = UserMessage | FileMessage | AdminMessage;
 
 export function membersAdapter(members: Member[]): SenderType[] {
   return map(pick(['userId', 'nickname', 'profileUrl']))(members);
@@ -31,40 +66,13 @@ export function messageFactory(message: UserMessage): MessageType {
   )(message);
 }
 
-export function getCompanyId(channel: { data: string }): ?DataType {
-  try {
-    const data: DataType = JSON.parse(channel.data);
-    if (data && 'companyId' in data && data.companyId) {
-      return data;
-    }
-  } catch (err) {
-    return null;
-  }
-  return null;
-}
-
-export function getThreadFromChannel<T>(
-  channel: GroupChannel,
-  doc: ChannelHandler<T>,
-  gen: ChannelHandler<T>,
-  n: ChannelHandler<T>,
-): T {
-  const params = getParamsFromChannelName(channel.name);
-  if (params.env !== BUILD_ENV) return n(channel);
-  if (channel.customType === DOCUMENT_CHAT_TYPE) {
-    if (typeof params.documentId === 'undefined') return n(channel);
-    return doc(channel);
-  }
-  return gen(channel);
-}
-
 // eslint-disable-next-line max-len
-export function documentThreadsFactory(channel: GroupChannel, messages: UserMessage[]): DocumentThreadType {
-  const params = getParamsFromChannelName(channel.name);
+export function documentThreadsFactory(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): DocumentThreadType {
+  const { companyId, documentId } = params;
   return {
     url: channel.url,
-    companyId: params.companyId,
-    documentId: params.documentId,
+    companyId,
+    documentId,
     members: membersAdapter(channel.members),
     name: channel.name,
     unreadMessageCount: channel.unreadMessageCount,
@@ -73,8 +81,8 @@ export function documentThreadsFactory(channel: GroupChannel, messages: UserMess
 }
 
 // eslint-disable-next-line max-len
-export function generalThreadsFactory(channel: GroupChannel, messages: UserMessage[]): GeneralThreadType {
-  const params = getParamsFromChannelName(channel.name);
+export function generalThreadsFactory(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<GeneralChannelParamsType>): GeneralThreadType {
+  const { companyId } = params;
   return {
     url: channel.url,
     companyId: params.companyId,
@@ -85,29 +93,29 @@ export function generalThreadsFactory(channel: GroupChannel, messages: UserMessa
   };
 }
 
-function dth(a: ThreadsContainer, channel: GroupChannel, message: UserMessage): ThreadsContainer {
-  const thread = documentThreadsFactory(channel, [message]);
-  return set(['threads', thread.name])(thread)(a);
+function dth(a: ThreadsContainer, channel: GroupChannel, message: SBMessage, params: $ReadOnly<DocumentChannelParamsType>): ThreadsContainer {
+  const thread = documentThreadsFactory(channel, [message], params);
+  return set([thread.name])(thread)(a);
 }
 
-function gth(a: ThreadsContainer, channel: GroupChannel, message: UserMessage): ThreadsContainer {
-  const thread = generalThreadsFactory(channel, [message]);
-  return set(['threads', thread.name])(thread)(a);
+function gth(a: ThreadsContainer, channel: GroupChannel, message: SBMessage, params: $ReadOnly<GeneralChannelParamsType>): ThreadsContainer {
+  const thread = generalThreadsFactory(channel, [message], params);
+  return set([thread.name])(thread)(a);
 }
 
-function channelsFactory(a: ThreadsContainer, channel: GroupChannel): ThreadsContainer {
-  return getThreadFromChannel(
-    channel,
-    c => dth(a, c, c.lastMessage),
-    c => gth(a, c, c.lastMessage),
-    () => a,
-  );
+function channelsFactory(env: EnvType) {
+  const getThreadFromChannel = getThreadFromChannelFactory(env);
+  return (a: ThreadsContainer, channel: GroupChannel) => {
+    const { lastMessage } = channel;
+    return getThreadFromChannel(
+      channel,
+      (_, params: $ReadOnly<DocumentChannelParamsType>) => dth(a, channel, lastMessage, params),
+      (_, params: $ReadOnly<GeneralChannelParamsType>) => gth(a, channel, lastMessage, params),
+      () => a,
+    );
+  }
 }
 
-const threadsContainer = () => ({
-  threads: {},
-});
-
-export function channelsToThreads(channels: Array<GroupChannel>): ThreadsContainer {
-  return channels.reduce(channelsFactory, threadsContainer());
+export function channelsToThreads(env: EnvType, channels: Array<GroupChannel>): ThreadsContainer {
+  return channels.reduce(channelsFactory(env), {});
 }

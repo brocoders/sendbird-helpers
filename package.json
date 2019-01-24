@@ -12,6 +12,8 @@
     "lint:md": "node scripts/mdlint",
     "flow": "flow",
     "test": "jest --env=node",
+    "test:watch": "jest --env=node --watch",
+    "test:coverage": "jest --env=node --coverage",
     "build": "rollup -c",
     "precommit": "yarn lint && yarn flow && yarn test",
     "preversion": "git checkout master && yarn precommit",
@@ -30,6 +32,7 @@
     "flow-bin": "^0.89.0",
     "flow-typed": "^2.5.1",
     "jest": "^23.6.0",
+    "jest-extended": "^0.11.0",
     "regenerator-runtime": "^0.13.1",
     "rollup": "^1.0.1",
     "rollup-plugin-babel": "^4.2.0",
@@ -38,11 +41,12 @@
     "rollup-plugin-flow-entry": "^0.2.0"
   },
   "dependencies": {
-    "lodash": "4.17.11",
     "immutable": "4.0.0-rc.12",
+    "lodash": "4.17.11",
     "sendbird": "^3.0.93"
   },
   "jest": {
+    "setupTestFrameworkScriptFile": "jest-extended",
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
     }
