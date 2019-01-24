@@ -83,6 +83,9 @@ export default [
       }),
       flowEntry(),
       babel(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }),
       commonjs(),
     ],
     external: id => !!reg && reg.test(id),
