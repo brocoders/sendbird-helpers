@@ -7,9 +7,14 @@ import type {
   AdminMessage,
   User,
 } from 'sendbird';
-import { Map, List, Record, type RecordOf, type RecordFactory } from 'immutable';
 import {
-  getParamsFromChannelName,
+  Map,
+  List,
+  Record,
+  type RecordOf,
+  type RecordFactory,
+} from 'immutable';
+import {
   getThreadFromChannelFactory,
   type EnvType,
   type DocumentChannelParamsType,
@@ -69,11 +74,9 @@ function senderAdapter({ userId, nickname, profileUrl }: User): RecordOf<SenderT
   });
 }
 
-function membersAdapter(members: Member[]): List<RecordOf<SenderType>> {
+function membersAdapter(members: $ReadOnlyArray<Member>): List<RecordOf<SenderType>> {
   return members.reduce((a, v: User) => a.push(senderAdapter(v)), new List());
 }
-
-
 
 const MessageFactory: RecordFactory<MessageType> = new Record({
   messageId: null,
@@ -82,7 +85,7 @@ const MessageFactory: RecordFactory<MessageType> = new Record({
   updatedAt: null,
   sender: SenderFactory(),
   data: '',
-})
+});
 
 function messageAdapter(userMessage : SBMessage): RecordOf<MessageType> {
   /* $FlowFixMe FileMessage | AdminMessage is not implemented */
@@ -93,11 +96,11 @@ function messageAdapter(userMessage : SBMessage): RecordOf<MessageType> {
     createdAt,
     updatedAt,
     data,
-    sender: senderAdapter(sender)
+    sender: senderAdapter(sender),
   });
 }
 
-function messagesListAdapter(userMessages: SBMessage[]): List<RecordOf<MessageType>> {
+function messagesListAdapter(userMessages: $ReadOnlyArray<SBMessage>): List<RecordOf<MessageType>> {
   return userMessages.reduce((a, v: SBMessage) => a.push(messageAdapter(v)), emptyList);
 }
 
@@ -111,7 +114,7 @@ const documentThreadFactory: RecordFactory<DocumentThread> = new Record({
   messages: new List(),
 });
 
-export function documentThreadAdapter(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): RecordOf<DocumentThread> {
+export function documentThreadAdapter(channel: GroupChannel, messages: $ReadOnlyArray<SBMessage>, params: $ReadOnly<DocumentChannelParamsType>): RecordOf<DocumentThread> {
   const { url, name, unreadMessageCount, members } = channel;
   const { companyId, documentId } = params;
   const membersList = membersAdapter(members);
@@ -136,7 +139,7 @@ const generalThreadFactory: RecordFactory<GeneralThread> = new Record({
   messages: new List(),
 });
 
-export function generalThreadAdapter(channel: GroupChannel, messages: SBMessage[], { companyId }: $ReadOnly<GeneralChannelParamsType>): RecordOf<GeneralThread> {
+export function generalThreadAdapter(channel: GroupChannel, messages: $ReadOnlyArray<SBMessage>, { companyId }: $ReadOnly<GeneralChannelParamsType>): RecordOf<GeneralThread> {
   const { url, name, unreadMessageCount, members } = channel;
   const membersList = membersAdapter(members);
   const messagesList = messagesListAdapter(messages);
@@ -147,7 +150,7 @@ export function generalThreadAdapter(channel: GroupChannel, messages: SBMessage[
     name,
     unreadMessageCount,
     messages: messagesList,
-  })
+  });
 }
 
 function dth(a: ThreadsContainer, channel: GroupChannel, message: SBMessage, params: $ReadOnly<DocumentChannelParamsType>): ThreadsContainer {
@@ -166,25 +169,23 @@ function channelsFactory(env: EnvType) {
     const { lastMessage } = channel;
     return getThreadFromChannel(
       channel,
-      (_, params: $ReadOnly<DocumentChannelParamsType>) => dth(a, channel, lastMessage, params),
-      (_, params: $ReadOnly<GeneralChannelParamsType>) => gth(a, channel, lastMessage, params),
+      (_, params) => dth(a, channel, lastMessage, params),
+      (_, params) => gth(a, channel, lastMessage, params),
       () => a,
     );
-  }
+  };
 }
 
 export function messageReciveFactory(env: EnvType) {
   const getThreadFromChannel = getThreadFromChannelFactory(env);
-  return (channel: GroupChannel, message: UserMessage) => {
-    return getThreadFromChannel(
-      channel,
-      (_, params) => documentThreadAdapter(channel, [message], params),
-      (_, params) => generalThreadAdapter(channel, [message], params),
-      () => null,
-    )
-  }
+  return (channel: GroupChannel, message: UserMessage) => getThreadFromChannel(
+    channel,
+    (_, params) => documentThreadAdapter(channel, [message], params),
+    (_, params) => generalThreadAdapter(channel, [message], params),
+    () => null,
+  );
 }
 
-export function channelsToThreads(env: EnvType, channels: GroupChannel[]): ThreadsContainer {
+export function channelsToThreads(env: EnvType, channels: $ReadOnlyArray<GroupChannel>): ThreadsContainer {
   return channels.reduce(channelsFactory(env), new Map());
 }

@@ -1,6 +1,6 @@
 /* @flow */
 import keys from '../__mock__/keys';
-import { sbGetInstance, sbCreatInstance } from '../src/instance';
+import { sbCreatInstance } from '../src/instance';
 
 describe('SendBird instance', () => {
   it('Should be created instance', () => {

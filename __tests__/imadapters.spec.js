@@ -9,7 +9,6 @@ import {
 } from '../src/imAdapters';
 
 describe('Immutamle Adapters', () => {
-
   it('Should transform groupChannels to store data', () => {
     const threads = channelsToThreads('local', groupChannel);
     const documentThread = threads.get(documentName);
@@ -26,6 +25,5 @@ describe('Immutamle Adapters', () => {
     expect(res.messages.get(0).message).toEqual(userMessage.message);
     expect(res.messages.get(0).messageId).toEqual(userMessage.messageId);
     expect(res.messages.get(0).sender.userId).toEqual(userMessage.sender.userId);
-  })
-
+  });
 });

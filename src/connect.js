@@ -1,9 +1,5 @@
 /* @flow */
-import SendBird, {
-  type GroupChannel,
-  type User,
-  type SendBirdInstance,
-} from 'sendbird';
+import type { User } from 'sendbird';
 import { ChatError } from './error';
 import { sbGetInstance } from './instance';
 
@@ -25,7 +21,7 @@ export function sbConnect(userId: string, accessToken: string): Promise<User> {
     new ChatError('Invalid arguments', {
       userId,
       accessToken,
-    })
+    }),
   );
 }
 
