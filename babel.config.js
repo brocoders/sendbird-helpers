@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function config(api) {
   return {
     plugins: [
       '@babel/plugin-proposal-class-properties',
@@ -13,9 +13,9 @@ module.exports = function(api) {
             node: 6,
             browsers: ['last 4 version', '> 1%', 'not dead'],
           },
-          forceAllTransforms: api.env("production"),
+          forceAllTransforms: api.env('production'),
         },
-      ]
+      ],
     ],
     env: {
       test: {
@@ -28,5 +28,5 @@ module.exports = function(api) {
         ],
       },
     },
-  }
+  };
 };

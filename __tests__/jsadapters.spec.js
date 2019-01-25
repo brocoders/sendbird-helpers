@@ -4,7 +4,6 @@ import userMessage from '../__mock__/userMessage.json';
 import {
   documentName,
   generalName,
-  unCnownName,
 } from '../__mock__/channelName';
 import {
   channelsToThreads,
@@ -23,7 +22,7 @@ describe('JS Adapters', () => {
   });
 
   it('Document adapter', () => {
-    const threads = channelsToThreads('local', groupChannel);
+    const threads = channelsToThreads('staging', groupChannel);
     expect(threads).toBeObject();
     const generalThread = threads[generalName];
     expect(generalThread.name).toEqual(generalName);
@@ -40,6 +39,5 @@ describe('JS Adapters', () => {
     expect(res.messages[0].message).toEqual(userMessage.message);
     expect(res.messages[0].messageId).toEqual(userMessage.messageId);
     expect(res.messages[0].sender.userId).toEqual(userMessage.sender.userId);
-  })
-
+  });
 });
