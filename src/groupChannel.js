@@ -46,3 +46,7 @@ export const sbGetGroupChannel = (channelUrl: string): Promise<GroupChannel> => 
     });
   })
 });
+
+export function sbMarkAsReadByURL(channelUrl: string): Promise<void> {
+  return sbGetGroupChannel(channelUrl).then((channel: GroupChannel) => channel.markAsRead());
+}

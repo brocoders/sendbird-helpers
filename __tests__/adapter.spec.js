@@ -1,11 +1,12 @@
 /* @flow */
+import {
+  documentName,
+  generalName,
+  unCnownName,
+} from '../__mock__/channelName';
 import { getParamsFromChannelName, getThreadFromChannelFactory } from '../src/adapters';
 
 describe('Adapters', () => {
-
-  const documentName = 'local#a1ae760ff7#e9ff6bcb686c4ca7c2350bed5bc6346f.pdf#a.golovchuk@brocoders.com#arikfishb@gmail.com';
-  const generalName = 'staging#ed70da07f4#a.golovchuk@brocoders.com#account1@dokka.biz';
-  const unCnownName = 'undefined#ed70da07f4#a.golovchuk@brocoders.com#account1@dokka.biz';
 
   it('Should return Document params', () => {
     expect(getParamsFromChannelName(documentName)).toEqual({

@@ -111,7 +111,7 @@ const documentThreadFactory: RecordFactory<DocumentThread> = new Record({
   messages: new List(),
 });
 
-function documentThreadAdapter(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): RecordOf<DocumentThread> {
+export function documentThreadAdapter(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): RecordOf<DocumentThread> {
   const { url, name, unreadMessageCount, members } = channel;
   const { companyId, documentId } = params;
   const membersList = membersAdapter(members);
@@ -136,7 +136,7 @@ const generalThreadFactory: RecordFactory<GeneralThread> = new Record({
   messages: new List(),
 });
 
-function generalThreadAdapter(channel: GroupChannel, messages: SBMessage[], { companyId }: $ReadOnly<GeneralChannelParamsType>): RecordOf<GeneralThread> {
+export function generalThreadAdapter(channel: GroupChannel, messages: SBMessage[], { companyId }: $ReadOnly<GeneralChannelParamsType>): RecordOf<GeneralThread> {
   const { url, name, unreadMessageCount, members } = channel;
   const membersList = membersAdapter(members);
   const messagesList = messagesListAdapter(messages);
@@ -170,6 +170,18 @@ function channelsFactory(env: EnvType) {
       (_, params: $ReadOnly<GeneralChannelParamsType>) => gth(a, channel, lastMessage, params),
       () => a,
     );
+  }
+}
+
+export function messageReciveFactory(env: EnvType) {
+  const getThreadFromChannel = getThreadFromChannelFactory(env);
+  return (channel: GroupChannel, message: UserMessage) => {
+    return getThreadFromChannel(
+      channel,
+      (_, params) => documentThreadAdapter(channel, [message], params),
+      (_, params) => generalThreadAdapter(channel, [message], params),
+      () => null,
+    )
   }
 }
 
