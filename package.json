@@ -1,6 +1,6 @@
 {
   "name": "sendbird-helpers",
-  "version": "0.1.11",
+  "version": "0.1.13",
   "description": "SendBird helpers",
   "main": "lib/index.js",
   "repository": "https://github.com/agolovchuk/sendBird-helpers.git",
@@ -29,7 +29,7 @@
     "babel-jest": "^23.6.0",
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "eslint": "^5.12.0",
-    "flow-bin": "^0.89.0",
+    "flow-bin": "^0.91.0",
     "flow-typed": "^2.5.1",
     "jest": "^23.6.0",
     "jest-extended": "^0.11.0",
@@ -38,7 +38,8 @@
     "rollup-plugin-babel": "^4.2.0",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-flow-entry": "^0.2.0"
+    "rollup-plugin-flow-entry": "^0.2.1",
+    "sinon": "^7.2.3"
   },
   "dependencies": {
     "immutable": "4.0.0-rc.12",

@@ -1,10 +1,15 @@
 /* @flow */
 import groupChannel from '../__mock__/groupChannelList.json';
-import { channelsToThreads } from '../src/jsAdapters';
-
-const documentName = 'local#a1ae760ff7#e9ff6bcb686c4ca7c2350bed5bc6346f.pdf#a.golovchuk@brocoders.com#arikfishb@gmail.com';
-const generalName = 'staging#ed70da07f4#a.golovchuk@brocoders.com#account1@dokka.biz';
-const unCnownName = 'undefined#ed70da07f4#a.golovchuk@brocoders.com#account1@dokka.biz';
+import userMessage from '../__mock__/userMessage.json';
+import {
+  documentName,
+  generalName,
+  unCnownName,
+} from '../__mock__/channelName';
+import {
+  channelsToThreads,
+  messageReciveFactory,
+} from '../src/jsAdapters';
 
 describe('JS Adapters', () => {
   it('Document adapter', () => {
@@ -26,4 +31,15 @@ describe('JS Adapters', () => {
     // $FlowFixMe
     expect(generalThread.documentId).toBeUndefined();
   });
+
+  it('Should transform data recive from message handler to store data', () => {
+    const reciver = messageReciveFactory('local');
+    const channel = groupChannel[0];
+    const res = reciver(channel, userMessage);
+    expect(res.messages.length).toBe(1);
+    expect(res.messages[0].message).toEqual(userMessage.message);
+    expect(res.messages[0].messageId).toEqual(userMessage.messageId);
+    expect(res.messages[0].sender.userId).toEqual(userMessage.sender.userId);
+  })
+
 });

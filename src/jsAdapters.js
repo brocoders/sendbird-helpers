@@ -67,7 +67,7 @@ export function messageFactory(message: UserMessage): MessageType {
 }
 
 // eslint-disable-next-line max-len
-export function documentThreadsFactory(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): DocumentThreadType {
+export function documentThreadAdapter(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<DocumentChannelParamsType>): DocumentThreadType {
   const { companyId, documentId } = params;
   return {
     url: channel.url,
@@ -81,7 +81,7 @@ export function documentThreadsFactory(channel: GroupChannel, messages: SBMessag
 }
 
 // eslint-disable-next-line max-len
-export function generalThreadsFactory(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<GeneralChannelParamsType>): GeneralThreadType {
+export function generalThreadAdapter(channel: GroupChannel, messages: SBMessage[], params: $ReadOnly<GeneralChannelParamsType>): GeneralThreadType {
   const { companyId } = params;
   return {
     url: channel.url,
@@ -94,12 +94,12 @@ export function generalThreadsFactory(channel: GroupChannel, messages: SBMessage
 }
 
 function dth(a: ThreadsContainer, channel: GroupChannel, message: SBMessage, params: $ReadOnly<DocumentChannelParamsType>): ThreadsContainer {
-  const thread = documentThreadsFactory(channel, [message], params);
+  const thread = documentThreadAdapter(channel, [message], params);
   return set([thread.name])(thread)(a);
 }
 
 function gth(a: ThreadsContainer, channel: GroupChannel, message: SBMessage, params: $ReadOnly<GeneralChannelParamsType>): ThreadsContainer {
-  const thread = generalThreadsFactory(channel, [message], params);
+  const thread = generalThreadAdapter(channel, [message], params);
   return set([thread.name])(thread)(a);
 }
 
@@ -113,6 +113,18 @@ function channelsFactory(env: EnvType) {
       (_, params: $ReadOnly<GeneralChannelParamsType>) => gth(a, channel, lastMessage, params),
       () => a,
     );
+  }
+}
+
+export function messageReciveFactory(env: EnvType) {
+  const getThreadFromChannel = getThreadFromChannelFactory(env);
+  return (channel: GroupChannel, message: UserMessage) => {
+    return getThreadFromChannel(
+      channel,
+      (_, params) => documentThreadAdapter(channel, [message], params),
+      (_, params) => generalThreadAdapter(channel, [message], params),
+      () => null,
+    )
   }
 }
 
