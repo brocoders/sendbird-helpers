@@ -1,7 +1,5 @@
 /* @flow */
 import type { GroupChannel } from 'sendbird';
-import { DOCUMENT_CHAT_TYPE } from './constants';
-import { ChatError } from './error';
 
 export type EnvType = 'staging' | 'development' | 'production' | 'local';
 
@@ -10,21 +8,22 @@ export type ChannelAdapter<P, T = *> = (channel: $ReadOnly<GroupChannel>, params
 export type GeneralChannelParamsType = {|
   env: EnvType,
   companyId: string,
-  users: string[],
+  users: $ReadOnlyArray<string>,
 |}
 
 export type DocumentChannelParamsType = {|
   env: EnvType,
   companyId: string,
-  users: string[],
+  users: $ReadOnlyArray<string>,
   documentId: string,
 |}
 
 export type ParamsChannel = GeneralChannelParamsType | DocumentChannelParamsType;
 
-export function getParamsFromChannelName(channelName: string): ParamsChannel | null {
+export function getParamsFromChannelName(buildEnv: EnvType, channelName: string): ParamsChannel | null {
   const params = channelName.split('#');
   const env = params[0];
+  if (env !== buildEnv) return null;
   if (env !== 'staging' && env !== 'development' && env !== 'production' && env !== 'local') {
     return null;
     // throw new ChatError(`Unknown environment`, { env, channelName });
@@ -44,14 +43,14 @@ export function getParamsFromChannelName(channelName: string): ParamsChannel | n
   }: GeneralChannelParamsType);
 }
 
-export function getThreadFromChannelFactory(env: EnvType) {
+export function getThreadFromChannelFactory(buildEnv: EnvType) {
   return function getThreadFromChannel(
     channel: GroupChannel,
     documentChannelAdapter: ChannelAdapter<$ReadOnly<DocumentChannelParamsType>, *>,
     generalChannelAdapter: ChannelAdapter<$ReadOnly<GeneralChannelParamsType>, *>,
     n: ChannelAdapter<null, *>,
   ) {
-    const params = getParamsFromChannelName(channel.name);
+    const params = getParamsFromChannelName(buildEnv, channel.name);
 
     if (params) {
       if (params.documentId) {
@@ -61,5 +60,5 @@ export function getThreadFromChannelFactory(env: EnvType) {
       return generalChannelAdapter(channel, params);
     }
     return n(channel, params);
-  }
+  };
 }

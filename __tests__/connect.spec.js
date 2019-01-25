@@ -11,9 +11,9 @@ describe('Connect to SendBird', () => {
   it('Should be connected', () => {
     sbCreatInstance(keys.apiKey);
     return sbConnect(keys.userId, keys.accessToken)
-      .then(user => {
+      .then((user) => {
         expect(user.userId).toEqual(keys.userId);
         sbDisconnect();
-      })
+      });
   });
 });

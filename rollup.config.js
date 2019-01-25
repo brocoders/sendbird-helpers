@@ -2,14 +2,17 @@ import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import flowEntry from 'rollup-plugin-flow-entry';
 import clear from 'rollup-plugin-clear';
+import flow from 'rollup-plugin-flow';
 
 import packageJson from './package.json';
+
+const configuredFlow = flow({ all: true, pretty: true });
 
 const { dependencies } = packageJson;
 
 const deps = dependencies && Object.keys(dependencies).join('|');
 const reg = deps && new RegExp(`^(${deps})($|/)`);
-const baseDistPath = 'lib/';
+const baseDistPath = './lib/';
 
 const banner = `
 /**
@@ -20,7 +23,7 @@ const banner = `
 
 export default [
   {
-    input: 'src/index.js',
+    input: './src/index.js',
     output: {
       file: `${baseDistPath}index.js`,
       format: 'cjs',
@@ -31,24 +34,8 @@ export default [
         targets: ['lib'],
       }),
       flowEntry(),
+      configuredFlow,
       babel(),
-      commonjs(),
-    ],
-    external: id => !!reg && reg.test(id),
-  },
-  {
-    input: 'src/index.js',
-    output: {
-      file: 'esm/index.mjs',
-      format: 'esm',
-      banner,
-    },
-    plugins: [
-      clear({
-        targets: ['esm'],
-      }),
-      flowEntry(),
-      babel({ presets: [['@babel/env', { targets: { node: 10 } }]] }),
       commonjs(),
     ],
     external: id => !!reg && reg.test(id),
@@ -65,6 +52,7 @@ export default [
         targets: ['lib'],
       }),
       flowEntry(),
+      configuredFlow,
       babel(),
       commonjs(),
     ],
@@ -82,6 +70,7 @@ export default [
         targets: ['lib'],
       }),
       flowEntry(),
+      configuredFlow,
       babel(),
       commonjs(),
     ],
