@@ -22,8 +22,10 @@ describe('Immutamle Adapters', () => {
     const channel = groupChannel[0];
     const res = reciver(channel, userMessage);
     expect(res.messages.size).toBe(1);
-    expect(res.messages.get(0).message).toEqual(userMessage.message);
-    expect(res.messages.get(0).messageId).toEqual(userMessage.messageId);
-    expect(res.messages.get(0).sender.userId).toEqual(userMessage.sender.userId);
+    const m = res.messages.add(res.messages.first());
+    expect(m.size).toBe(1);
+    expect(res.messages.first().message).toEqual(userMessage.message);
+    expect(res.messages.first().messageId).toEqual(userMessage.messageId);
+    expect(res.messages.first().sender.userId).toEqual(userMessage.sender.userId);
   });
 });
