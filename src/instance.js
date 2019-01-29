@@ -10,6 +10,25 @@ export function sbGetInstance(): SendBirdInstance {
   return SendBird.getInstance();
 }
 
+// export function sbGetPromisedInstance(): Promise<SendBirdInstance> {
+//   const instance = SendBird.getInstance();
+//   const state = instance.getConnectionState();
+//   if (state === 'CONNECTING') {
+//     return new Promise((resolve, reject) => {
+//       const cHandler: ConnectionHandler = new instance.ConnectionHandler();
+//       cHandler.onReconnectSucceeded = () => {
+//         resolve(instance);
+//       };
+//       cHandler.onReconnectFailed = () => {
+//         reject();
+//       };
+//       instance.addConnectionHandler('id', cHandler);
+//     });
+//   }
+//   if (state === 'OPEN') return Promise.resolve(instance);
+//   return Promise.reject();
+// }
+
 export function sbGetConnectedInstance(): SendBirdInstance {
   const sendbird = sbGetInstance();
   if (sendbird && 'getConnectionState' in sendbird) {
