@@ -11,6 +11,7 @@ import {
   Map,
   List,
   Record,
+  Set,
   type RecordOf,
   type RecordFactory,
 } from 'immutable';
@@ -42,7 +43,7 @@ type BaseThread = {|
   members: List<RecordOf<SenderType>>,
   name: string,
   unreadMessageCount: number,
-  messages: List<RecordOf<MessageType>>,
+  messages: Set<RecordOf<MessageType>>,
 |}
 
 type DocumentThread = {|
@@ -57,8 +58,6 @@ type GeneralThreadType = RecordOf<GeneralThread>;
 type ThreadsContainer = Map<string, DocumentThreadType | GeneralThreadType>;
 
 type SBMessage = UserMessage | FileMessage | AdminMessage;
-
-const emptyList = new List();
 
 const SenderFactory: RecordFactory<SenderType> = new Record({
   userId: '',
@@ -100,8 +99,8 @@ function messageAdapter(userMessage : SBMessage): RecordOf<MessageType> {
   });
 }
 
-function messagesListAdapter(userMessages: $ReadOnlyArray<SBMessage>): List<RecordOf<MessageType>> {
-  return userMessages.reduce((a, v: SBMessage) => a.push(messageAdapter(v)), emptyList);
+function messagesListAdapter(userMessages: $ReadOnlyArray<SBMessage>): Set<RecordOf<MessageType>> {
+  return userMessages.reduce((a, v: SBMessage) => a.add(messageAdapter(v)), new Set());
 }
 
 const documentThreadFactory: RecordFactory<DocumentThread> = new Record({
@@ -111,7 +110,7 @@ const documentThreadFactory: RecordFactory<DocumentThread> = new Record({
   members: new List(),
   name: '',
   unreadMessageCount: 0,
-  messages: new List(),
+  messages: new Set(),
 });
 
 export function documentThreadAdapter(channel: GroupChannel, messages: $ReadOnlyArray<SBMessage>, params: $ReadOnly<DocumentChannelParamsType>): RecordOf<DocumentThread> {
@@ -136,7 +135,7 @@ const generalThreadFactory: RecordFactory<GeneralThread> = new Record({
   members: new List(),
   name: '',
   unreadMessageCount: 0,
-  messages: new List(),
+  messages: new Set(),
 });
 
 export function generalThreadAdapter(channel: GroupChannel, messages: $ReadOnlyArray<SBMessage>, { companyId }: $ReadOnly<GeneralChannelParamsType>): RecordOf<GeneralThread> {
