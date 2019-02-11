@@ -29,7 +29,9 @@ export function sbDisconnect(): Promise<void> {
   const sb = sbGetInstance();
   return new Promise((resolve) => {
     if (sb && 'disconnect' in sb) {
-      sb.disconnect(() => { resolve(); });
+      sb.disconnect(() => {
+        resolve();
+      });
     } else {
       resolve();
     }

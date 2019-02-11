@@ -59,7 +59,7 @@ export default [
     external: id => !!reg && reg.test(id),
   },
   {
-    input: 'src/imAdapters.js',
+    input: 'src/im/index.js',
     output: {
       file: `${baseDistPath}imAdapters.js`,
       format: 'cjs',

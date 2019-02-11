@@ -1,6 +1,6 @@
 {
   "name": "sendbird-helpers",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "description": "SendBird helpers",
   "main": "lib/index.js",
   "repository": "https://github.com/agolovchuk/sendBird-helpers.git",
@@ -36,6 +36,7 @@
     "flow-typed": "^2.5.1",
     "jest": "^23.6.0",
     "jest-extended": "^0.11.0",
+    "jest-immutable-matchers": "^2.0.1",
     "regenerator-runtime": "^0.13.1",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.3.2",
