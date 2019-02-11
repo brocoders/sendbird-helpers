@@ -63,16 +63,13 @@ export function getThreadFromChannelFactory(buildEnv: EnvType) {
   };
 }
 
-export function makeChannelNameFactory(buildEnv: EnvType): (
+export function makeChannelName(
+  buildEnv: EnvType,
   participants: $ReadOnlyArray<string>,
   companyId: string,
-  documentId?: string
-) => string {
-  return (
-    participants: $ReadOnlyArray<string>,
-    companyId: string,
-    documentId?: string,
-  ) => [
+  documentId?: string,
+): string {
+  return [
     buildEnv,
     companyId,
     documentId,
