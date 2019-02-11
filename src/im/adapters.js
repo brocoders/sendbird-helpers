@@ -3,8 +3,6 @@ import type {
   GroupChannel,
   Member,
   UserMessage,
-  FileMessage,
-  AdminMessage,
   User,
 } from 'sendbird';
 import {
@@ -20,44 +18,16 @@ import {
   type EnvType,
   type DocumentChannelParamsType,
   type GeneralChannelParamsType,
-} from './adapters';
+} from '../adapters';
+import type {
+  SenderType,
+  MessageType,
+  SBMessage,
+  DocumentThread,
+  GeneralThread,
+  ThreadsContainer,
+} from './index.js.flow';
 
-type SenderType = {|
-  userId: string,
-  nickname: string,
-  profileUrl: string,
-|}
-
-type MessageType = {
-  messageId: number,
-  message: string,
-  createdAt: number,
-  updatedAt: number,
-  sender: RecordOf<SenderType>,
-  data: string,
-}
-
-type BaseThread = {|
-  url: string,
-  companyId: string,
-  members: List<RecordOf<SenderType>>,
-  name: string,
-  unreadMessageCount: number,
-  messages: Set<RecordOf<MessageType>>,
-|}
-
-type DocumentThread = {|
-  ...BaseThread,
-  documentId: string,
-|}
-
-type GeneralThread = BaseThread;
-
-type DocumentThreadType = RecordOf<DocumentThread>;
-type GeneralThreadType = RecordOf<GeneralThread>;
-type ThreadsContainer = Map<string, DocumentThreadType | GeneralThreadType>;
-
-type SBMessage = UserMessage | FileMessage | AdminMessage;
 
 const SenderFactory: RecordFactory<SenderType> = new Record({
   userId: '',

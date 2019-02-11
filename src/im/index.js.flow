@@ -1,0 +1,54 @@
+/* @flow */
+import type {
+  RecordOf,
+  List,
+  Set,
+  Map,
+} from 'immutable';
+import type {
+  UserMessage,
+  FileMessage,
+  AdminMessage,
+} from 'sendbird';
+
+export type SenderType = {|
+  userId: string,
+  nickname: string,
+  profileUrl: string,
+|}
+
+export type MessageType = {
+  messageId: number,
+  message: string,
+  createdAt: number,
+  updatedAt: number,
+  sender: RecordOf<SenderType>,
+  data: string,
+}
+
+type BaseThread = {|
+  url: string,
+  companyId: string,
+  members: List<RecordOf<SenderType>>,
+  name: string,
+  unreadMessageCount: number,
+  messages: Set<RecordOf<MessageType>>,
+|}
+
+export type DocumentThread = {|
+  ...BaseThread,
+  documentId: string,
+|}
+
+export type GeneralThread = BaseThread;
+
+type DocumentThreadType = RecordOf<DocumentThread>;
+type GeneralThreadType = RecordOf<GeneralThread>;
+export type ThreadsItemType = DocumentThreadType | GeneralThreadType;
+export type ThreadsContainer = Map<string, ThreadsItemType>;
+
+export type SBMessage = UserMessage | FileMessage | AdminMessage;
+
+export type ChatState = {
+  thread: ThreadsContainer
+};

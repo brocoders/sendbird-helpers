@@ -33,13 +33,13 @@ export function getParamsFromChannelName(buildEnv: EnvType, channelName: string)
       env,
       companyId: params[1],
       documentId: params[2],
-      users: params.slice(-2),
+      users: params.slice(-2).sort(),
     }: DocumentChannelParamsType);
   }
   return ({
     env,
     companyId: params[1],
-    users: params.slice(-2),
+    users: params.slice(-2).sort(),
   }: GeneralChannelParamsType);
 }
 

@@ -60,7 +60,7 @@ declare module 'sendbird' {
     updateCurrentUserInfoWithProfileImage(nickname: string, profileImageFile: File, callback?: userCallback): void,
     getCurrentUserId(): string,
     getApplicationId(): string,
-    getConnectionState(): string,
+    getConnectionState(): 'CLOSED' | 'OPEN' | 'CONNECTING',
     addChannelHandler(id: string, handler: ChannelHandler): void,
     removeChannelHandler(id: string): void,
     removeAllChannelHandlers(): void,
@@ -169,10 +169,10 @@ declare module 'sendbird' {
       channel: OpenChannel | GroupChannel,
       message: AdminMessage | UserMessage | FileMessage): void
   }
-  declare class ConnectionHandlerStatic {
+  declare export class ConnectionHandlerStatic {
     constructor(): ConnectionHandler
   }
-  declare interface ConnectionHandler {
+  declare export interface ConnectionHandler {
     onReconnectStarted(): void,
     onReconnectSucceeded(): void,
     onReconnectFailed(): void
