@@ -47,9 +47,9 @@ describe('Immutable reducers', () => {
 
   it('Should merge thread recived massage to empty store', () => {
     const nextState = reciveMessageMergeTpState(state, threadWithOneMessage);
-    expect(nextState.thread).toBeImmutableMap();
-    expect(nextState.thread.get(channel.name).messages).toBeImmutableSet();
-    expect(nextState.thread.get(channel.name)).toEqualImmutable(threadWithOneMessage);
+    expect(nextState.threads).toBeImmutableMap();
+    expect(nextState.threads.get(channel.name).messages).toBeImmutableSet();
+    expect(nextState.threads.get(channel.name)).toEqualImmutable(threadWithOneMessage);
   });
 
   it('Should merge thread recived massage to exist thread in store', () => {
@@ -58,6 +58,7 @@ describe('Immutable reducers', () => {
     const nextMessage = firstMessage.update('messageId', u => u + 1);
     const threadWithNextMessage = threadWithOneMessage.set('messages', nextMessage);
     const nextState = reciveMessageMergeTpState(stateWithOneThreadWithOneMessage, threadWithNextMessage);
-    expect(nextState.thread.get(channel.name).messages).toEqualImmutable(Set([firstMessage, nextMessage]));
+    console.log(JSON.stringify(nextState, null, 2));
+    expect(nextState.threads.get(channel.name).messages).toEqualImmutable(Set([firstMessage, nextMessage]));
   });
 });
