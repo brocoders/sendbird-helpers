@@ -2,6 +2,10 @@
 import type {
   GroupChannel,
   GroupChannelListQuery,
+  PreviousMessageListQuery,
+  UserMessage,
+  FileMessage,
+  AdminMessage,
 } from 'sendbird';
 import { sbGetInstance } from './instance';
 
@@ -27,8 +31,11 @@ export function sbChannelList(limit: number = 30): Promise<$ReadOnlyArray<GroupC
   channelListQuery.limit = limit;
   return new Promise((resolve, reject) => {
     channelListQuery.next((channels, err) => {
-      if (err) reject(err);
-      if (channels) resolve(channels);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(channels);
+      }
     });
   });
 }
@@ -49,3 +56,17 @@ export function sbGetGroupChannel(channelUrl: string): Promise<GroupChannel> {
 export function sbMarkAsReadByURL(channelUrl: string): Promise<void> {
   return sbGetGroupChannel(channelUrl).then((channel: GroupChannel) => channel.markAsRead());
 }
+
+export const sbGetMessageList = (previousMessageListQuery: PreviousMessageListQuery): Promise<$ReadOnlyArray<UserMessage | FileMessage | AdminMessage>> => {
+  const limit = 30;
+  const reverse = true;
+  return new Promise((resolve, reject) => {
+    previousMessageListQuery.load(limit, reverse, (messages, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(messages);
+      }
+    });
+  });
+};
