@@ -62,3 +62,20 @@ export function getThreadFromChannelFactory(buildEnv: EnvType) {
     return n(channel, params);
   };
 }
+
+export function makeChannelNameFactory(buildEnv: EnvType): (
+  participants: $ReadOnlyArray<string>,
+  companyId: string,
+  documentId?: string
+) => string {
+  return (
+    participants: $ReadOnlyArray<string>,
+    companyId: string,
+    documentId?: string,
+  ) => [
+    buildEnv,
+    companyId,
+    documentId,
+    ...participants.slice().sort(),
+  ].filter(f => f).join('#');
+}
