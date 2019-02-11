@@ -670,21 +670,21 @@ declare module 'sendbird' {
               reverse: boolean,
               callback: messageListCallback): void
   }
-  declare interface PreviousMessageListQuery {
-      hasMore: boolean,
-          isLoading: boolean,
-          limit: number,
-          reverse: boolean,
-          messageTypeFilter: "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType",
-          customTypeFilter: string,
-          senderUserIdsFilter: Array<string>,
-          load(limit: number, reverse: boolean, callback: messageListCallback): void,
-          load(
-              limit: number,
-              reverse: boolean,
-              messageType: number,
-              callback: messageListCallback): void,
-          load(callback: messageListCallback): void
+  declare export interface PreviousMessageListQuery {
+    hasMore: boolean,
+    isLoading: boolean,
+    limit: number,
+    reverse: boolean,
+    messageTypeFilter: "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType" | "NO PRINT IMPLEMENTED: LiteralType",
+    customTypeFilter: string,
+    senderUserIdsFilter: Array<string>,
+    load(limit: number, reverse: boolean, callback: messageListCallback): void,
+    load(
+      limit: number,
+      reverse: boolean,
+      messageType: number,
+      callback: messageListCallback): void,
+    load(callback: messageListCallback): void
   }
 
   /**
