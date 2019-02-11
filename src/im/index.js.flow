@@ -50,5 +50,5 @@ export type ThreadsContainer = Map<string, ThreadsItemType>;
 export type SBMessage = UserMessage | FileMessage | AdminMessage;
 
 export type ChatState = {
-  thread: ThreadsContainer
+  threads: ThreadsContainer
 };

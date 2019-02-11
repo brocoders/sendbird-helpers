@@ -11,18 +11,18 @@ import type {
 } from './index.js.flow';
 
 export const chatStateFactory: RecordFactory<ChatState> = new Record({
-  thread: new Map(),
+  threads: new Map(),
 });
 
 function messagesMerge(oldValue, newValue, key) {
-  if (key === 'messages') return oldValue.add(newValue);
+  if (key === 'messages') return oldValue.concat(newValue);
   return newValue;
 }
 
 export function reciveMessageMergeTpState(state: RecordOf<ChatState>, thread: ThreadsItemType): RecordOf<ChatState> {
   return state
     .updateIn(
-      ['thread', thread.name],
+      ['threads', thread.name],
       // $FlowFixMe
       (u: ThreadsItemType | void) => (u ? u.mergeWith(messagesMerge, thread) : thread),
     );
