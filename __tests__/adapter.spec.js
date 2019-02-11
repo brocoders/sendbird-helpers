@@ -13,8 +13,8 @@ describe('Adapters', () => {
       companyId: 'a1ae760ff7',
       documentId: 'e9ff6bcb686c4ca7c2350bed5bc6346f.pdf',
       users: [
-        'a.golovchuk@brocoders.com',
-        'arikfishb@gmail.com',
+        'user1@example.gov',
+        'admin@example.com',
       ],
     });
   });
@@ -24,8 +24,8 @@ describe('Adapters', () => {
       env: 'staging',
       companyId: 'ed70da07f4',
       users: [
-        'a.golovchuk@brocoders.com',
-        'account1@dokka.biz',
+        'user1@example.gov',
+        'account1@example.biz',
       ],
     });
   });
