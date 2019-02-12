@@ -57,6 +57,40 @@ export function sbMarkAsReadByURL(channelUrl: string): Promise<void> {
   return sbGetGroupChannel(channelUrl).then((channel: GroupChannel) => channel.markAsRead());
 }
 
+export function sbGroupChannelExist(name: string): Promise<$ReadOnlyArray<GroupChannel>> {
+  const channelListQuery = sbCreateGroupChannelListQuery();
+  channelListQuery.channelNameContainsFilter = name;
+  channelListQuery.includeEmpty = true;
+  return sbGetGroupChannelList(channelListQuery)
+    .then(channels => channels.filter(f => f.name === name));
+}
+
+export const sbCreateGroupChannel = (
+  inviteUserIdList: $ReadOnlyArray<string>,
+  isDistinct: boolean,
+  name: string,
+  coverUrl: string | File = '',
+  data: string = '',
+  customType: string = '',
+): Promise<GroupChannel> => new Promise((resolve, reject) => {
+  const sb = sbGetInstance();
+  sb.GroupChannel.createChannelWithUserIds(
+    inviteUserIdList,
+    isDistinct,
+    name,
+    coverUrl,
+    data,
+    customType,
+    (channel, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(channel);
+      }
+    },
+  );
+});
+
 type MessagesType = $ReadOnlyArray<UserMessage | FileMessage | AdminMessage>;
 
 export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQuery): Promise<MessagesType> {
@@ -73,13 +107,7 @@ export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQu
   });
 }
 
-export type MessagesContainerType = {|
-  channel: GroupChannel,
-  query: PreviousMessageListQuery,
-  mesages: MessagesType,
-|}
-
-export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery): MessagesContainerType {
+export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery) {
   const channel: GroupChannel = await sbGetGroupChannel(channelUrl);
   if (query) {
     const messages: MessagesType = await sbGetMessageList(query);
@@ -96,4 +124,19 @@ export async function sbGetMessagesContainer(channelUrl: string, query?: Previou
     query: listQuery,
     messages,
   };
+}
+
+export function sbSendTextMessage(channel: GroupChannel, textMessage: string, data: string = ''): Promise<UserMessage> {
+  if (channel.isGroupChannel()) {
+    channel.endTyping();
+  }
+  return new Promise((resolve, reject) => {
+    channel.sendUserMessage(textMessage, data, (message, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(message);
+      }
+    });
+  });
 }
