@@ -147,10 +147,10 @@ function channelsFactory(env: EnvType) {
 
 export function messageReciveFactory(env: EnvType) {
   const getThreadFromChannel = getThreadFromChannelFactory(env);
-  return (channel: GroupChannel, message: UserMessage) => getThreadFromChannel(
+  return (channel: GroupChannel, messages: $ReadOnlyArray<UserMessage>) => getThreadFromChannel(
     channel,
-    (_, params) => documentThreadAdapter(channel, [message], params),
-    (_, params) => generalThreadAdapter(channel, [message], params),
+    (_, params) => documentThreadAdapter(channel, messages, params),
+    (_, params) => generalThreadAdapter(channel, messages, params),
     () => null,
   );
 }
