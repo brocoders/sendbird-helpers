@@ -20,13 +20,12 @@ export type DocumentChannelParamsType = {|
 
 export type ParamsChannel = GeneralChannelParamsType | DocumentChannelParamsType;
 
-export function getParamsFromChannelName(buildEnv: EnvType, channelName: string): ParamsChannel | null {
+export function getParamsFromChannelName(channelName: string): ParamsChannel {
   const params = channelName.split('#');
-  const env = params[0];
-  if (env !== buildEnv) return null;
+  const env = ((params[0]: any): EnvType);
   if (env !== 'staging' && env !== 'development' && env !== 'production' && env !== 'local') {
+    // $FlowFixMe
     return null;
-    // throw new ChatError(`Unknown environment`, { env, channelName });
   }
   if (params.length === 5) {
     return ({
@@ -43,6 +42,13 @@ export function getParamsFromChannelName(buildEnv: EnvType, channelName: string)
   }: GeneralChannelParamsType);
 }
 
+export function getParamsFromChannelNameWithEnv(buildEnv: EnvType, channelName: string): ParamsChannel | null {
+  if (channelName.startsWith(buildEnv)) {
+    return getParamsFromChannelName(channelName);
+  }
+  return null;
+}
+
 export function getThreadFromChannelFactory(buildEnv: EnvType) {
   return function getThreadFromChannel(
     channel: GroupChannel,
@@ -50,7 +56,7 @@ export function getThreadFromChannelFactory(buildEnv: EnvType) {
     generalChannelAdapter: ChannelAdapter<$ReadOnly<GeneralChannelParamsType>, *>,
     n: ChannelAdapter<null, *>,
   ) {
-    const params = getParamsFromChannelName(buildEnv, channel.name);
+    const params = getParamsFromChannelNameWithEnv(buildEnv, channel.name);
 
     if (params) {
       if (params.documentId) {
