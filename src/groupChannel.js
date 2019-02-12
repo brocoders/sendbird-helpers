@@ -73,13 +73,7 @@ export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQu
   });
 }
 
-export type MessagesContainerType = {|
-  channel: GroupChannel,
-  query: PreviousMessageListQuery,
-  mesages: MessagesType,
-|}
-
-export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery): MessagesContainerType {
+export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery) {
   const channel: GroupChannel = await sbGetGroupChannel(channelUrl);
   if (query) {
     const messages: MessagesType = await sbGetMessageList(query);
@@ -96,4 +90,19 @@ export async function sbGetMessagesContainer(channelUrl: string, query?: Previou
     query: listQuery,
     messages,
   };
+}
+
+export function sbSendTextMessage(channel: GroupChannel, textMessage: string, data: string = ''): Promise<UserMessage> {
+  if (channel.isGroupChannel()) {
+    channel.endTyping();
+  }
+  return new Promise((resolve, reject) => {
+    channel.sendUserMessage(textMessage, data, (message, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(message);
+      }
+    });
+  });
 }
