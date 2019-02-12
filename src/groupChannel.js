@@ -57,6 +57,40 @@ export function sbMarkAsReadByURL(channelUrl: string): Promise<void> {
   return sbGetGroupChannel(channelUrl).then((channel: GroupChannel) => channel.markAsRead());
 }
 
+export function sbGroupChannelExist(name: string): Promise<$ReadOnlyArray<GroupChannel>> {
+  const channelListQuery = sbCreateGroupChannelListQuery();
+  channelListQuery.channelNameContainsFilter = name;
+  channelListQuery.includeEmpty = true;
+  return sbGetGroupChannelList(channelListQuery)
+    .then(channels => channels.filter(f => f.name === name));
+}
+
+export const sbCreateGroupChannel = (
+  inviteUserIdList: $ReadOnlyArray<string>,
+  isDistinct: boolean,
+  name: string,
+  coverUrl: string | File = '',
+  data: string = '',
+  customType: string = '',
+): Promise<GroupChannel> => new Promise((resolve, reject) => {
+  const sb = sbGetInstance();
+  sb.GroupChannel.createChannelWithUserIds(
+    inviteUserIdList,
+    isDistinct,
+    name,
+    coverUrl,
+    data,
+    customType,
+    (channel, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(channel);
+      }
+    },
+  );
+});
+
 type MessagesType = $ReadOnlyArray<UserMessage | FileMessage | AdminMessage>;
 
 export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQuery): Promise<MessagesType> {
