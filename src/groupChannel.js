@@ -57,7 +57,9 @@ export function sbMarkAsReadByURL(channelUrl: string): Promise<void> {
   return sbGetGroupChannel(channelUrl).then((channel: GroupChannel) => channel.markAsRead());
 }
 
-export const sbGetMessageList = (previousMessageListQuery: PreviousMessageListQuery): Promise<$ReadOnlyArray<UserMessage | FileMessage | AdminMessage>> => {
+type MessagesType = $ReadOnlyArray<UserMessage | FileMessage | AdminMessage>;
+
+export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQuery): Promise<MessagesType> {
   const limit = 30;
   const reverse = true;
   return new Promise((resolve, reject) => {
@@ -69,4 +71,29 @@ export const sbGetMessageList = (previousMessageListQuery: PreviousMessageListQu
       }
     });
   });
-};
+}
+
+export type MessagesContainerType = {|
+  channel: GroupChannel,
+  query: PreviousMessageListQuery,
+  mesages: MessagesType,
+|}
+
+export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery): MessagesContainerType {
+  const channel: GroupChannel = await sbGetGroupChannel(channelUrl);
+  if (query) {
+    const messages: MessagesType = await sbGetMessageList(query);
+    return {
+      channel,
+      query,
+      messages,
+    };
+  }
+  const listQuery: PreviousMessageListQuery = channel.createPreviousMessageListQuery();
+  const messages: MessagesType = await sbGetMessageList(listQuery);
+  return {
+    channel,
+    query: listQuery,
+    messages,
+  };
+}
