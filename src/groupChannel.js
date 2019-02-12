@@ -8,6 +8,8 @@ import type {
   AdminMessage,
 } from 'sendbird';
 import { sbGetInstance } from './instance';
+import { getParamsFromChannelName } from './adapters';
+import { DOCUMENT_CHAT_TYPE } from './constants';
 
 export function sbCreateGroupChannelListQuery(): GroupChannelListQuery {
   const sb = sbGetInstance();
@@ -90,6 +92,21 @@ export const sbCreateGroupChannel = (
     },
   );
 });
+
+export function sbCreateGroupChannelByName(name: string): Promise<GroupChannel> {
+  const { users, companyId, ...rest } = getParamsFromChannelName(name);
+  if (rest.documentId) {
+    return sbCreateGroupChannel(
+      users,
+      false,
+      name,
+      '',
+      JSON.stringify({ companyId, documentId: rest.documentId }),
+      DOCUMENT_CHAT_TYPE,
+    );
+  }
+  return sbCreateGroupChannel(users, false, name, '', JSON.stringify({ companyId }));
+}
 
 type MessagesType = $ReadOnlyArray<UserMessage | FileMessage | AdminMessage>;
 
