@@ -126,7 +126,7 @@ export function sbGetMessageList(previousMessageListQuery: PreviousMessageListQu
 
 export async function sbGetMessagesContainer(channelUrl: string, query?: PreviousMessageListQuery) {
   const channel: GroupChannel = await sbGetGroupChannel(channelUrl);
-  if (query) {
+  if (query && typeof query.load === 'function') {
     const messages: MessagesType = await sbGetMessageList(query);
     return {
       channel,
