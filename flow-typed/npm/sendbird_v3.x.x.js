@@ -380,295 +380,295 @@ declare module 'sendbird' {
       messageType: string,
       customType: string,
       callback: messageListCallback): void,
-      getPreviousAndNextMessagesByTimestamp(
-          ts: number,
-          prevResultSize: number,
-          nextResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          senderUserIds: Array<string>,
-          callback: messageListCallback): void,
-      getNextMessagesByID(
-          messageId: number,
-          isInclusive: boolean,
-          nextResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          callback: messageListCallback): void,
-      getNextMessagesByID(
-          messageId: number,
-          isInclusive: boolean,
-          nextResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          senderUserIds: Array<string>,
-          callback: messageListCallback): void,
-      getPreviousMessagesByID(
-          messageId: number,
-          isInclusive: boolean,
-          prevResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          callback: messageListCallback): void,
-      getPreviousMessagesByID(
-          messageId: number,
-          isInclusive: boolean,
-          prevResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          senderUserIds: Array<string>,
-          callback: messageListCallback): void,
-      getPreviousAndNextMessagesByID(
-          messageId: number,
-          prevResultSize: number,
-          nextResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          callback: messageListCallback): void,
-      getPreviousAndNextMessagesByID(
-          messageId: number,
-          prevResultSize: number,
-          nextResultSize: number,
-          shouldReverse: boolean,
-          messageType: string,
-          customType: string,
-          senderUserIds: Array<string>,
-          callback: messageListCallback): void,
+    getPreviousAndNextMessagesByTimestamp(
+      ts: number,
+      prevResultSize: number,
+      nextResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      senderUserIds: Array<string>,
+      callback: messageListCallback): void,
+    getNextMessagesByID(
+      messageId: number,
+      isInclusive: boolean,
+      nextResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      callback: messageListCallback): void,
+    getNextMessagesByID(
+      messageId: number,
+      isInclusive: boolean,
+      nextResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      senderUserIds: Array<string>,
+      callback: messageListCallback): void,
+    getPreviousMessagesByID(
+      messageId: number,
+      isInclusive: boolean,
+      prevResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      callback: messageListCallback): void,
+    getPreviousMessagesByID(
+      messageId: number,
+      isInclusive: boolean,
+      prevResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      senderUserIds: Array<string>,
+      callback: messageListCallback): void,
+    getPreviousAndNextMessagesByID(
+      messageId: number,
+      prevResultSize: number,
+      nextResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      callback: messageListCallback): void,
+    getPreviousAndNextMessagesByID(
+      messageId: number,
+      prevResultSize: number,
+      nextResultSize: number,
+      shouldReverse: boolean,
+      messageType: string,
+      customType: string,
+      senderUserIds: Array<string>,
+      callback: messageListCallback): void,
 
           /**
            * FileMessage
            */
-          sendFileMessage(fileMessageParams: FileMessageParams, callback: messageCallback): FileMessage,
-          sendFileMessage(file: File, callback: messageCallback): FileMessage,
-          sendFileMessage(file: File, data: string, callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              data: string,
-              customType: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              data: string,
-              customType: string,
-              thumbnailSizes: Array<ThumbnailSize>,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              thumbnailSizes: Array<ThumbnailSize>,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              fileMessageParams: FileMessageParams,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              data: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              data: string,
-              customType: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              data: string,
-              customType: string,
-              thumbnailSizes: Array<ThumbnailSize>,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: File,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              thumbnailSizes: Array<ThumbnailSize>,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(file: string, callback: messageCallback): FileMessage,
-          sendFileMessage(file: string, data: string, callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              data: string,
-              customType: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              data: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              data: string,
-              customType: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
-          sendFileMessage(
-              file: string,
-              name: string,
-              type: string,
-              size: number,
-              data: string,
-              customType: string,
-              progressHandler: fileUploadprogressHandler,
-              callback: messageCallback): FileMessage,
+    sendFileMessage(fileMessageParams: FileMessageParams, callback: messageCallback): FileMessage,
+    sendFileMessage(file: File, callback: messageCallback): FileMessage,
+    sendFileMessage(file: File, data: string, callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      data: string,
+      customType: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      data: string,
+      customType: string,
+      thumbnailSizes: Array<ThumbnailSize>,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      thumbnailSizes: Array<ThumbnailSize>,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      fileMessageParams: FileMessageParams,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      data: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      data: string,
+      customType: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      data: string,
+      customType: string,
+      thumbnailSizes: Array<ThumbnailSize>,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: File,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      thumbnailSizes: Array<ThumbnailSize>,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(file: string, callback: messageCallback): FileMessage,
+    sendFileMessage(file: string, data: string, callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      data: string,
+      customType: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      data: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      data: string,
+      customType: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
+    sendFileMessage(
+      file: string,
+      name: string,
+      type: string,
+      size: number,
+      data: string,
+      customType: string,
+      progressHandler: fileUploadprogressHandler,
+      callback: messageCallback): FileMessage,
 
-          /**
-           * UserMessage
-           */
-          sendUserMessage(userMessageParams: UserMessageParams, callback: messageCallback): UserMessage,
-          sendUserMessage(message: string, callback: messageCallback): UserMessage,
-          sendUserMessage(message: string, data: string, callback: messageCallback): UserMessage,
-          sendUserMessage(
-              message: string,
-              data: string,
-              customType: string,
-              callback: messageCallback): UserMessage,
-          sendUserMessage(
-              message: string,
-              data: string,
-              customType: string,
-              targetLanguages: Array<string>,
-              callback: messageCallback): UserMessage,
+        /**
+         * UserMessage
+         */
+    sendUserMessage(userMessageParams: UserMessageParams, callback: messageCallback): UserMessage,
+    sendUserMessage(message: string, callback: messageCallback): UserMessage,
+    sendUserMessage(message: string, data: string, callback: messageCallback): UserMessage,
+    sendUserMessage(
+      message: string,
+      data: string,
+      customType: string,
+      callback: messageCallback): UserMessage,
+    sendUserMessage(
+      message: string,
+      data: string,
+      customType: string,
+      targetLanguages: Array<string>,
+      callback: messageCallback): UserMessage,
 
-          /**
-           * Edit Message
-           */
-          updateFileMessage(
-              messageId: number,
-              data: string,
-              customType: string,
-              callback: messageCallback): void,
-          updateUserMessage(
-              messageId: number,
-              message: string,
-              data: string,
-              customType: string,
-              callback: messageCallback): void,
-          deleteMessage(message: FileMessage | UserMessage, callback: commonCallback): void,
-          cancelUploadingFileMessage(messageReqId: string, callback: cancelUploadingFileMessageCallback): boolean,
+        /**
+         * Edit Message
+         */
+    updateFileMessage(
+      messageId: number,
+      data: string,
+      customType: string,
+      callback: messageCallback): void,
+    updateUserMessage(
+      messageId: number,
+      message: string,
+      data: string,
+      customType: string,
+      callback: messageCallback): void,
+    deleteMessage(message: FileMessage | UserMessage, callback: commonCallback): void,
+    cancelUploadingFileMessage(messageReqId: string, callback: cancelUploadingFileMessageCallback): boolean,
 
-          /**
-           * MetaData
-           */
-          createMetaData(metaDataMap: Object, callback: commonCallback): void,
-          updateMetaData(metaDataMap: Object, callback: commonCallback): void,
-          updateMetaData(metaDataMap: Object, upsert: boolean, callback: commonCallback): void,
-          getMetaData(keys: Array<string>, callback: commonCallback): void,
-          getAllMetaData(callback: commonCallback): void,
-          deleteMetaData(key: string, callback: commonCallback): void,
-          deleteAllMetaData(callback: commonCallback): void,
+        /**
+         * MetaData
+         */
+    createMetaData(metaDataMap: Object, callback: commonCallback): void,
+    updateMetaData(metaDataMap: Object, callback: commonCallback): void,
+    updateMetaData(metaDataMap: Object, upsert: boolean, callback: commonCallback): void,
+    getMetaData(keys: Array<string>, callback: commonCallback): void,
+    getAllMetaData(callback: commonCallback): void,
+    deleteMetaData(key: string, callback: commonCallback): void,
+    deleteAllMetaData(callback: commonCallback): void,
 
-          /**
-           * MetaCounter
-           */
-          createMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
-          updateMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
-          updateMetaCounters(metaCounterMap: Object, upsert: boolean, callback: commonCallback): void,
-          increaseMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
-          decreaseMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
-          getMetaCounters(keys: Array<string>, callback: commonCallback): void,
-          getAllMetaCounters(callback: commonCallback): void,
-          deleteMetaCounter(key: string, callback: commonCallback): void,
-          deleteAllMetaCounters(callback: commonCallback): void
+        /**
+         * MetaCounter
+         */
+    createMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
+    updateMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
+    updateMetaCounters(metaCounterMap: Object, upsert: boolean, callback: commonCallback): void,
+    increaseMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
+    decreaseMetaCounters(metaCounterMap: Object, callback: commonCallback): void,
+    getMetaCounters(keys: Array<string>, callback: commonCallback): void,
+    getAllMetaCounters(callback: commonCallback): void,
+    deleteMetaCounter(key: string, callback: commonCallback): void,
+    deleteAllMetaCounters(callback: commonCallback): void
   }
   declare type messageListCallback = (
-      messageList: Array<UserMessage | FileMessage | AdminMessage>,
-      error: SendBirdError) => void;
+    messageList: Array<UserMessage | FileMessage | AdminMessage>,
+    error: SendBirdError) => void;
   declare interface MessageListQuery {
-      next(
-              messageTimestamp: number,
-              limit: number,
-              reverse: boolean,
-              callback: messageListCallback): void,
-          prev(
-              messageTimestamp: number,
-              limit: number,
-              reverse: boolean,
-              callback: messageListCallback): void,
-          load(
-              messageTimestamp: number,
-              prevLimit: number,
-              nextLimit: number,
-              reverse: boolean,
-              callback: messageListCallback): void
+    next(
+      messageTimestamp: number,
+      limit: number,
+      reverse: boolean,
+      callback: messageListCallback): void,
+    prev(
+      messageTimestamp: number,
+      limit: number,
+      reverse: boolean,
+      callback: messageListCallback): void,
+    load(
+      messageTimestamp: number,
+      prevLimit: number,
+      nextLimit: number,
+      reverse: boolean,
+      callback: messageListCallback): void
   }
   declare export interface PreviousMessageListQuery {
     hasMore: boolean,
