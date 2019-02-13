@@ -28,17 +28,33 @@ export function sbGetGroupChannelList(groupChannelListQuery: GroupChannelListQue
   });
 }
 
-export function sbChannelList(limit: number = 30): Promise<$ReadOnlyArray<GroupChannel>> {
+function fetchChannel(
+  channelListQuery: GroupChannelListQuery,
+  resolve,
+  reject,
+  ch: $ReadOnlyArray<GroupChannel> = [],
+) {
+  channelListQuery.next((channels, err) => {
+    const { hasNext, isLoading } = channelListQuery;
+    /* TODO: 
+    const lastCounter = channels[channels.length - 1].unreadMessageCount;
+    */
+    const channelsContsiner = ch.concat(channels);
+    if (err) {
+      reject(err);
+    } else if (hasNext && !isLoading) {
+      return fetchChannel(channelListQuery, resolve, reject, ch.concat(channelsContsiner));
+    } else {
+      resolve(channelsContsiner);
+    }
+  });
+}
+
+export function sbChannelList(limit: number = 5): Promise<$ReadOnlyArray<GroupChannel>> {
   const channelListQuery = sbCreateGroupChannelListQuery();
   channelListQuery.limit = limit;
   return new Promise((resolve, reject) => {
-    channelListQuery.next((channels, err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(channels);
-      }
-    });
+    fetchChannel(channelListQuery, resolve, reject);
   });
 }
 
