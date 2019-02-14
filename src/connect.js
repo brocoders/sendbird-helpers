@@ -2,6 +2,7 @@
 import type { User } from 'sendbird';
 import { ChatError } from './error';
 import { sbGetInstance } from './instance';
+import { OPEN } from './constants';
 
 export function sbConnect(userId: string, accessToken: string): Promise<User> {
   const sb = sbGetInstance();
@@ -28,10 +29,14 @@ export function sbConnect(userId: string, accessToken: string): Promise<User> {
 export function sbDisconnect(): Promise<void> {
   const sb = sbGetInstance();
   return new Promise((resolve) => {
-    if (sb && 'disconnect' in sb) {
-      sb.disconnect(() => {
+    if (sb) {
+      const state = sb.getConnectionState();
+      if (state === OPEN && 'disconnect' in sb) {
+        sb.disconnect(() => { resolve(); });
+      } else {
+        // TODO: Analisis connecting state and disconnect after state open
         resolve();
-      });
+      }
     } else {
       resolve();
     }

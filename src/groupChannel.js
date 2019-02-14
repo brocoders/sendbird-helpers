@@ -36,7 +36,7 @@ function fetchChannel(
 ) {
   channelListQuery.next((channels, err) => {
     const { hasNext, isLoading } = channelListQuery;
-    /* TODO: 
+    /* TODO: futures check
     const lastCounter = channels[channels.length - 1].unreadMessageCount;
     */
     const channelsContsiner = ch.concat(channels);
