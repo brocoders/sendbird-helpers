@@ -76,4 +76,22 @@ export default [
     ],
     external: id => !!reg && reg.test(id),
   },
+  {
+    input: 'src/constants.js',
+    output: {
+      file: `${baseDistPath}constants.js`,
+      format: 'cjs',
+      banner,
+    },
+    plugins: [
+      clear({
+        targets: ['lib'],
+      }),
+      flowEntry(),
+      configuredFlow,
+      babel(),
+      commonjs(),
+    ],
+    external: id => !!reg && reg.test(id),
+  },
 ];
