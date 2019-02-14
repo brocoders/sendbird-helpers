@@ -1,5 +1,5 @@
 import * as matchers from 'jest-immutable-matchers';
-import { Set } from 'immutable';
+// import { Set } from 'immutable';
 import groupChannel from '../__mock__/groupChannelList.json';
 import userMessage from '../__mock__/userMessage.json';
 import {
@@ -7,11 +7,11 @@ import {
 } from '../__mock__/channelName';
 import {
   channelsToThreads,
-  messageReciveFactory,
+  messageReceiveFactory,
 } from '../src/im/adapters';
 import {
   chatStateFactory,
-  reciveMessageMergeTpState,
+  receiveMessageMergeTpState,
 } from '../src/im/helpers';
 
 describe('Immutamle Adapters', () => {
@@ -23,10 +23,10 @@ describe('Immutamle Adapters', () => {
     expect(true).toBeTruthy();
   });
 
-  it('Should transform data recive from message handler to store data', () => {
-    const reciver = messageReciveFactory('local');
+  it('Should transform data receive from message handler to store data', () => {
+    const receiver = messageReceiveFactory('local');
     const channel = groupChannel[0];
-    const res = reciver(channel, [userMessage]);
+    const res = receiver(channel, [userMessage]);
     expect(res.messages.size).toBe(1);
     const m = res.messages.add(res.messages.first());
     expect(m.size).toBe(1);
@@ -38,26 +38,26 @@ describe('Immutamle Adapters', () => {
 
 describe('Immutable reducers', () => {
   const state = chatStateFactory();
-  const reciver = messageReciveFactory('local');
+  const receiver = messageReceiveFactory('local');
   const channel = groupChannel[0];
-  const threadWithOneMessage = reciver(channel, [userMessage]);
+  const threadWithOneMessage = receiver(channel, [userMessage]);
   beforeEach(() => {
     jest.addMatchers(matchers);
   });
 
-  it('Should merge thread recived massage to empty store', () => {
-    const nextState = reciveMessageMergeTpState(state, threadWithOneMessage);
+  it('Should merge thread received massage to empty store', () => {
+    const nextState = receiveMessageMergeTpState(state, threadWithOneMessage);
     expect(nextState.threads).toBeImmutableMap();
     expect(nextState.threads.get(channel.name).messages).toBeImmutableSet();
     expect(nextState.threads.get(channel.name)).toEqualImmutable(threadWithOneMessage);
   });
 
-  it('Should merge thread recived massage to exist thread in store', () => {
-    const stateWithOneThreadWithOneMessage = reciveMessageMergeTpState(state, threadWithOneMessage);
+  it('Should merge thread received massage to exist thread in store', () => {
+    const stateWithOneThreadWithOneMessage = receiveMessageMergeTpState(state, threadWithOneMessage);
     const firstMessage = threadWithOneMessage.get('messages').first();
     const nextMessage = firstMessage.update('messageId', u => u + 1);
     const threadWithNextMessage = threadWithOneMessage.set('messages', nextMessage);
-    const nextState = reciveMessageMergeTpState(stateWithOneThreadWithOneMessage, threadWithNextMessage);
+    const nextState = receiveMessageMergeTpState(stateWithOneThreadWithOneMessage, threadWithNextMessage);
     // expect(nextState.threads.get(channel.name).messages).toEqualImmutable(Set([firstMessage, nextMessage]));
   });
 });

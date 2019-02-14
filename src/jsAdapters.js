@@ -116,7 +116,7 @@ function channelsFactory(env: EnvType) {
   };
 }
 
-export function messageReciveFactory(env: EnvType) {
+export function messageReceiveFactory(env: EnvType) {
   const getThreadFromChannel = getThreadFromChannelFactory(env);
   return (channel: GroupChannel, message: UserMessage) => getThreadFromChannel(
     channel,
