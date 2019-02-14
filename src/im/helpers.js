@@ -19,7 +19,7 @@ function messagesMerge(oldValue, newValue, key) {
   return newValue;
 }
 
-export function reciveMessageMergeTpState(state: RecordOf<ChatState>, thread: ThreadsItemType): RecordOf<ChatState> {
+export function receiveMessageMergeTpState(state: RecordOf<ChatState>, thread: ThreadsItemType): RecordOf<ChatState> {
   return state
     .updateIn(
       ['threads', thread.name],

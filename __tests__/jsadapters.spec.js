@@ -7,7 +7,7 @@ import {
 } from '../__mock__/channelName';
 import {
   channelsToThreads,
-  messageReciveFactory,
+  messageReceiveFactory,
 } from '../src/jsAdapters';
 
 describe('JS Adapters', () => {
@@ -31,10 +31,10 @@ describe('JS Adapters', () => {
     expect(generalThread.documentId).toBeUndefined();
   });
 
-  it('Should transform data recive from message handler to store data', () => {
-    const reciver = messageReciveFactory('local');
+  it('Should transform data receive from message handler to store data', () => {
+    const receiver = messageReceiveFactory('local');
     const channel = groupChannel[0];
-    const res = reciver(channel, userMessage);
+    const res = receiver(channel, userMessage);
     expect(res.messages.length).toBe(1);
     expect(res.messages[0].message).toEqual(userMessage.message);
     expect(res.messages[0].messageId).toEqual(userMessage.messageId);
