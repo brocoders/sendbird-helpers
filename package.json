@@ -1,6 +1,6 @@
 {
   "name": "sendbird-helpers",
-  "version": "0.1.33",
+  "version": "0.1.34",
   "description": "SendBird helpers",
   "main": "lib/index.js",
   "repository": "https://github.com/agolovchuk/sendBird-helpers.git",
@@ -14,6 +14,7 @@
     "test:watch": "jest --env=node --watch",
     "test:coverage": "jest --env=node --coverage",
     "build": "rollup -c",
+    "dev": "rollup -c -w",
     "precommit": "yarn lint && npx flow && yarn test",
     "preversion": "git checkout master && yarn precommit",
     "postversion": "git push --follow-tags"
@@ -49,6 +50,7 @@
   "dependencies": {
     "immutable": "4.0.0-rc.12",
     "lodash": "4.17.11",
+    "rollup-watch": "^4.3.1",
     "sendbird": "^3.0.93"
   },
   "jest": {

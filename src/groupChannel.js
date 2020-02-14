@@ -43,7 +43,7 @@ function fetchChannel(
     if (err) {
       reject(err);
     } else if (hasNext && !isLoading) {
-      return fetchChannel(channelListQuery, resolve, reject, ch.concat(channelsContsiner));
+      return fetchChannel(channelListQuery, resolve, reject, channelsContsiner);
     } else {
       resolve(channelsContsiner);
     }
