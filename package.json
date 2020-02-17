@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "immutable": "4.0.0-rc.12",
-    "lodash": "4.17.11",
+    "lodash": "4.17.13",
     "sendbird": "^3.0.93"
   },
   "jest": {
