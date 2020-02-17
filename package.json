@@ -1,10 +1,10 @@
 {
-  "name": "sendbird-helpers",
-  "version": "0.1.34",
-  "description": "SendBird helpers",
+  "name": "sendbird-utils",
+  "version": "0.0.1",
+  "description": "SendBird utils",
   "main": "lib/index.js",
-  "repository": "https://github.com/agolovchuk/sendBird-helpers.git",
-  "author": "Alexandr Golovchuk <a.golovchuk@gmail.com>",
+  "repository": "https://github.com/brocoders/sendbird-utils.git",
+  "author": "Alexandr Golovchuk <ab@dokka.me>",
   "license": "MIT",
   "scripts": {
     "lint": "yarn lint:js",
@@ -14,7 +14,6 @@
     "test:watch": "jest --env=node --watch",
     "test:coverage": "jest --env=node --coverage",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
     "precommit": "yarn lint && npx flow && yarn test",
     "preversion": "git checkout master && yarn precommit",
     "postversion": "git push --follow-tags"
@@ -50,7 +49,6 @@
   "dependencies": {
     "immutable": "4.0.0-rc.12",
     "lodash": "4.17.11",
-    "rollup-watch": "^4.3.1",
     "sendbird": "^3.0.93"
   },
   "jest": {
