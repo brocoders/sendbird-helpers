@@ -1,6 +1,6 @@
 {
   "name": "sendbird-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "SendBird utils",
   "main": "lib/index.js",
   "repository": "https://github.com/brocoders/sendbird-utils.git",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "immutable": "4.0.0-rc.12",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.11",
     "sendbird": "^3.0.93"
   },
   "jest": {
