@@ -50,8 +50,9 @@ function fetchChannel(
   });
 }
 
-export function sbChannelList(limit: number = 5): Promise<$ReadOnlyArray<GroupChannel>> {
+export function sbChannelList(limit: number = 5, includeEmpty: boolean = false): Promise<$ReadOnlyArray<GroupChannel>> {
   const channelListQuery = sbCreateGroupChannelListQuery();
+  channelListQuery.includeEmpty = includeEmpty;
   channelListQuery.limit = limit;
   return new Promise((resolve, reject) => {
     fetchChannel(channelListQuery, resolve, reject);
