@@ -174,3 +174,16 @@ export function sbSendTextMessage(channel: GroupChannel, textMessage: string, da
     });
   });
 }
+
+export function sbDeleteTextMessage(channel: GroupChannel, message: UserMessage): Promise<null> {
+  return new Promise((resolve, reject) => {
+    // response is null in case of success
+    channel.deleteMessage(message, (response, error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+}
